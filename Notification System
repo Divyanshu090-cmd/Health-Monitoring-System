@@ -1,0 +1,8 @@
+def send_alert(device_id, risk_level):
+    if risk_level == "high":
+        print(f"ALERT: High health risk detected for {device_id}!")
+        # Further code to send alerts (via email, SMS, or app notification)
+
+# In the receive_data endpoint:
+risk_level = predict_risk([data["heart_rate"], data["blood_pressure"], data["glucose_level"]])
+send_alert(data["device_id"], risk_level)
