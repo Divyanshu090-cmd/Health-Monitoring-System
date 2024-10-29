@@ -1,0 +1,26 @@
+import requests
+import time
+import random
+
+# Constants for device simulation
+BACKEND_URL = 'http://backend_server_url/api/data'
+DEVICE_ID = 'device_123'
+SLEEP_INTERVAL = 5  # seconds
+
+def generate_data():
+    """Simulate wearable data."""
+    return {
+        "device_id": DEVICE_ID,
+        "heart_rate": random.randint(60, 100),
+        "blood_pressure": random.randint(110, 140),
+        "glucose_level": random.randint(70, 150),
+    }
+
+while True:
+    data = generate_data()
+    response = requests.post(BACKEND_URL, json=data)
+    if response.status_code == 200:
+        print(f"Data sent successfully: {data}")
+    else:
+        print("Failed to send data")
+    time.sleep(SLEEP_INTERVAL)
