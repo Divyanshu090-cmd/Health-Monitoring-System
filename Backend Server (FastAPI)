@@ -1,0 +1,30 @@
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from typing import Dict
+import random
+
+app = FastAPI()
+
+# Placeholder for database storage
+data_storage = []
+
+class HealthData(BaseModel):
+    device_id: str
+    heart_rate: int
+    blood_pressure: int
+    glucose_level: int
+
+@app.post("/api/data")
+async def receive_data(health_data: HealthData):
+    """Receive and store data from IoT devices."""
+    data = health_data.dict()
+    data_storage.append(data)
+    # Simulate a health risk prediction
+    risk_prediction = random.choice(["low", "medium", "high"])
+    alert = {"device_id": data["device_id"], "risk_level": risk_prediction}
+    print(f"Received data: {data}, Predicted risk: {alert['risk_level']}")
+    return {"status": "data received", "alert": alert}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
