@@ -1,0 +1,38 @@
+// Sample React Native code for a patient dashboard
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+const App = () => {
+    const [data, setData] = useState({ heart_rate: 0, blood_pressure: 0, glucose_level: 0 });
+
+    useEffect(() => {
+        // Fetch data from backend API
+        fetch('http://backend_server_url/api/get_latest_data')
+            .then(response => response.json())
+            .then(data => setData(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
+
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>Health Metrics</Text>
+            <Text>Heart Rate: {data.heart_rate}</Text>
+            <Text>Blood Pressure: {data.blood_pressure}</Text>
+            <Text>Glucose Level: {data.glucose_level}</Text>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    title: {
+        fontSize: 24,
+        marginBottom: 20,
+    },
+});
+
+export default App;
